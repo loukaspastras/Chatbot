@@ -1,0 +1,155 @@
+/* Style for the entire page */
+::-webkit-scrollbar {
+    width: 10px; /* Width of the scrollbar */
+    height: 10px; /* Height for horizontal scrollbar */
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1; /* Light gray background */
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #888; /* Dark gray thumb */
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555; /* Darker gray on hover */
+}
+
+#chatbot-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 400px;
+    font-family: Arial, sans-serif;
+    display: none; /* Hidden by default */
+    z-index: 9999;
+}
+
+#chatbox {
+    border: 1px solid #ccc;
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+#chat-header {
+    display: flex;
+    justify-content: space-between; /* Space out the text and button */
+    align-items: center; /* Vertically center the items */
+    padding: 10px;
+    background: #007bff;
+    color: white;
+}
+
+#chat-header span {
+    font-size: 1.5em; /* Make the "Βοηθός" text larger */
+    margin-left: 10px; /* Optional: adds some space between text and left side */
+}
+
+#minimize-btn {
+    cursor: pointer;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 18px;
+}
+/* Chat messages container */
+#chat-messages {
+    display: flex;           /* Make sure it behaves as a flex container */
+    flex-direction: column;  /* Stack messages vertically */
+    flex-grow: 1;            /* Allow the container to grow and take available space */
+    overflow-y: auto;        /* Enable vertical scrolling */
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+    max-height: 300px;       /* Optional: You can set a max height if needed for better control */
+}
+
+#input-container {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-top: 1px solid #ccc; /* Optional: Adds a border between messages and input area */
+}
+
+#chat-input {
+    flex-grow: 1; /* Makes the input field grow to take available space */
+    padding: 10px;
+    border: none;
+    outline: none;
+    border-radius: 5px;
+}
+
+#send-btn {
+    margin-right: 10px; /* Adds some space between the button and input field */
+    padding: 10px;
+    border: none;
+    background: #007bff;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+#chatbot-logo {
+    position: fixed;
+    bottom: 5%;
+    right: 3%;
+    width: 208px; /* Adjust width for desired rectangle */
+    height: 190px; /* Adjust height for desired rectangle */
+    background: url('logo.png') no-repeat center/cover;
+    border-radius: 10px; /* Optional: rounded corners for a softer rectangle */
+    cursor: pointer;
+    z-index: 10000;
+}
+/* Make sure the chat container is a flex container */
+.chat-container {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    overflow-y: auto;
+    height: 400px; /* Fixed height for scrollable area */
+}
+
+/* User message box: Align the user's messages to the right */
+.user-message {
+    background-color: lightblue; /* Light blue background */
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 15px;
+    max-width: 70%; /* The user box will take up 70% of the width */
+    align-self: flex-end; /* Positioned on the right side */
+    word-wrap: break-word;
+    text-align: right; /* Aligns the text to the right */
+}
+
+/* Bot message box: Align the bot's messages to the left */
+.bot-message {
+    background-color: gray; /* Gray background */
+    color: white;   
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 15px;
+    max-width: 70%; /* The bot box will take up 70% of the width */
+    align-self: flex-start; /* Positioned on the left side */
+    word-wrap: break-word;
+    text-align: left; /* Aligns the text to the left */
+}
+
+.chat-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.chat-container::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 10px;
+}
+
+.chat-container::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}

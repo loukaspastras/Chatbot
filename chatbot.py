@@ -1,19 +1,44 @@
-from transformers import AutoModelForCausalLM, AutoTokenizer
-import torch
+import os
+import json
+import google.generativeai as genai
 
-tokenizer = AutoTokenizer.from_pretrained("microsoft/DialoGPT-medium")
-model = AutoModelForCausalLM.from_pretrained("microsoft/DialoGPT-medium")
+# Gemini setup
+genai.configure(api_key=os.environ["GEMINI_API_KEY"])
 
-# Let's chat for 5 lines
-for step in range(5):
-    # Encode the new user input, add the eos_token and return a tensor in Pytorch
-    new_user_input_ids = tokenizer.encode(input(">> User:") + tokenizer.eos_token, return_tensors='pt')
-    
-    # Append the new user input tokens to the chat history
-    bot_input_ids = torch.cat([chat_history_ids, new_user_input_ids], dim=-1) if step > 0 else new_user_input_ids
-    
-    # Generate a response while limiting the total chat history to 1000 tokens
-    chat_history_ids = model.generate(bot_input_ids, max_length=1000, pad_token_id=tokenizer.eos_token_id)
-    
-    # Pretty print last output tokens from bot
-    print("DialoGPT: {}".format(tokenizer.decode(chat_history_ids[:, bot_input_ids.shape[-1]:][0], skip_special_tokens=True)))
+generation_config = {
+    "temperature": 0.4,
+    "top_p": 0.95,
+    "top_k": 40,
+    "max_output_tokens": 8192,
+    "response_mime_type": "text/plain",
+}
+
+system_instruction = """You are a helpful and friendly assistant for "Αγγλικά Πάστρας" language school, located in Marousi, Attica, Greece, at 3 Odyssea Androutsou Street, postal code 15124. Our phone number is 2106123474. We specialize exclusively in English language instruction.
+
+[Rest of your system prompt - same as before]
+"""
+
+model = genai.GenerativeModel(
+    model_name="gemini-2.0-flash-exp",
+    generation_config=generation_config,
+    system_instruction=system_instruction,
+)
+
+chat_session = model.start_chat(history=[])  # Initialize chat history
+
+
+def get_gemini_response(user_message):
+    response = chat_session.send_message(user_message)
+
+    try:
+        json_response = json.loads(response.text)
+        generated_text = json_response["candidates"][0]["content"]["parts"][0]["text"]
+        return generated_text
+
+    except json.JSONDecodeError:
+        return response.text  # Return plain text
+
+    except (KeyError, IndexError) as e:
+        print(f"Error processing JSON response: {e}")
+        print("Raw Response:", response.text)
+        return "Error processing response"  # Or handle the error as you see fit

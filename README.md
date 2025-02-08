@@ -61,7 +61,7 @@ $env:GEMINI_API_KEY="your-api-key-here"
    ```
 3. Run the chatbot:
    ```bash
-   python chatbot.py
+   python app.py
    ```
 
 ## 🤝 Contributing
